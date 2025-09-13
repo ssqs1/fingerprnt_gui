@@ -20,11 +20,11 @@ class GUI:
         # Styles
         self.style = ttk.Style()
         self.style.theme_use('clam')
-        self.style.configure('TFrame', background="#dfdfdf")
-        self.style.configure('TLabelFrame', background="#a7fbd8", foreground='white', font=('Arial', 12, 'bold'))
-        self.style.configure('TLabel', background="#1c3a7b", foreground='white', font=('Arial', 11))
-        self.style.configure('TButton', background='#351c75', foreground='white', font=('Arial', 11, 'bold'))
-        self.style.map('TButton', background=[('active', '#847cc3')])
+        self.style.configure('TFrame', background="#E5E5E5")
+        self.style.configure('TLabelFrame', background="#006cd8", foreground='white', font=('Arial', 12, 'bold'))
+        self.style.configure('TLabel', background="#000000", foreground='white', font=('Arial', 11))
+        self.style.configure('TButton', background="#000000", foreground='white', font=('Arial', 11, 'bold'))
+        self.style.map('TButton', background=[('active', "#6D6D71")])
 
         # Initialize fingerprint device
         try:
@@ -164,7 +164,7 @@ class GUI:
             table_win = tk.Toplevel(self.root)
             table_win.title("Fingerprint Matches")
             table_win.geometry("500x300")
-            cols = ("Name", "Email", "Distance", "Match")
+            cols = ("Name", "Email", "Distance", "Match" , "Matching Time")
             tree = ttk.Treeview(table_win, columns=cols, show="headings")
             for col in cols:
                 tree.heading(col, text=col)
@@ -176,7 +176,8 @@ class GUI:
                 email = user.get("email", "N/A")
                 dist = round(float(match.get("distance", 0)), 2)
                 is_match = "✅" if dist < 50 else "❌"
-                tree.insert("", "end", values=(name, email, dist, is_match))
+                matching_time = match.get("matching_time", "N/A")
+                tree.insert("", "end", values=(name, email, dist, is_match , matching_time))
             best = response.get("best_match")
             if best:
                 self.status.set(
